@@ -15,7 +15,7 @@ st.title("Класифікатор зображень")
 # Завантаження і підготовка даних Fashion MNIST
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 x_test = x_test / 255.0
-x_test.reshape((1, 28, 28, -1))
+x_test = np.expand_dims(x_test, axis=-1)  # Якщо модель очікує (28, 28, 1)
 y_test_categorical = to_categorical(y_test, num_classes=10)
 
 # Вибір моделі
@@ -50,6 +50,7 @@ if uploaded_file is not None:
         image_array = np.array(image)
         image_array = np.expand_dims(image_array, axis=-1)
     else:
+        image = image.convert("RGB")  # Перетворення на кольорове зображення
         image = image.resize((48, 48))
         image_array = np.array(image)
 
